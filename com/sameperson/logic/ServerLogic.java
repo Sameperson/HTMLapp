@@ -15,7 +15,8 @@ public class ServerLogic {
             while(true) {
                 clientSocket = serverSocket.accept();
                 InputStreamReader inputReader = new InputStreamReader(clientSocket.getInputStream());
-                PrintWriter writer = new PrintWriter(clientSocket.getOutputStream());
+                OutputStream os = clientSocket.getOutputStream();
+                PrintWriter writer = new PrintWriter(os);
                 BufferedReader reader = new BufferedReader(inputReader);
 
                 String userRequest = reader.readLine();
@@ -37,9 +38,7 @@ public class ServerLogic {
                             "  <a href=\'calculator.html\'>Calculator</a>\r\n" +
                             "</body>\r\n" +
                             "</html>");
-                } else if(this.getExtension(uri).equals("png")) {
-                    writer.print(readImage(uri));
-                } else {
+                } else if(this.getFileExtension(uri).equals("html")||this.getFileExtension(uri).equals("txt")) {
                     try {
                         writer.print(readTextFile(uri));
                     } catch(FileNotFoundException fnfe) {
@@ -56,6 +55,8 @@ public class ServerLogic {
                                 "</body>\r\n" +
                                 "</html>");
                     }
+                } else {
+                    downloadFile(os, uri);
                 }
 
                 writer.flush();
@@ -85,21 +86,23 @@ public class ServerLogic {
         return textRespond;
     }
 
-    private String readImage(String uri) {
-        String imageRespond = "HTTP/1.1 200 OK\r\n" +
-                "\r\n";
-        String address = "src/resources" +uri;
-        imageRespond+= "<html>\n" +
-                "<body>\n" +
-                "\n" +
-                "<img src=\"" + uri + "\" alt=\"" + uri + "\" style=\"width:304px;height:228px;\">\n" +
-                "\n" +
-                "</body>";
+    private void downloadFile(OutputStream os, String uri) throws IOException {
+        String address = "src/resources" + uri;
+        File file = new File(address);
 
-        return imageRespond;
+        byte [] byteBuffer  = new byte [(int)file.length()];
+
+        FileInputStream fis = new FileInputStream(file);
+        BufferedInputStream bis = new BufferedInputStream(fis);
+        bis.read(byteBuffer, 0, byteBuffer.length);
+
+
+        System.out.println("Sending " + uri + "(" + byteBuffer.length + " bytes)");
+        os.write(byteBuffer, 0, byteBuffer.length);
+        os.flush();
     }
 
-    private String getExtension(String uri) {
+    private String getFileExtension(String uri) {
         String[] splitter = uri.split("[/.]");
         return splitter[splitter.length-1];
     }
