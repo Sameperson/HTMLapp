@@ -14,7 +14,7 @@ public class Calculator {
             return add(operandOne, operandTwo);
         } else if(operation.equals("multiply")) {
             return multiply(operandOne, operandTwo);
-        } else if(operation.equals("substract")) {
+        } else if(operation.equals("subtract")) {
             return subtract(operandOne, operandTwo);
         } else if(operation.equals("divide")) {
             return divide(operandOne, operandTwo);
