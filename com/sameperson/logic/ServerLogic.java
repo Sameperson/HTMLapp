@@ -25,15 +25,7 @@ public class ServerLogic {
                 }
                 System.out.println(userRequest);
                 if(uri.equals("/")||uri.equals("/favicon.ico")||uri.equals("")) {
-                    writer.print("HTTP/1.1 200 OK\r\n" +
-                            "\r\n" +
-                            "<html>\r\n" +
-                            "<head>\r\n" +
-                            "  <title>WELCOME TO SERVER APP!</title>\r\n" +
-                            "</head>\r\n" +
-                            "<body>\r\n" +
-                            "</body>\r\n" +
-                            "</html>");
+                    getFile(os, "/index.html");
                 } else if(isCalculator(uri)) {
                     writer.print("HTTP/1.1 200 OK\r\n" +
                             "\r\n" +
