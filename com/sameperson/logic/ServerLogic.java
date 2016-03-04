@@ -1,8 +1,9 @@
-package logic;
+package com.sameperson.logic;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Scanner;
 
 public class ServerLogic {
 
@@ -30,13 +31,15 @@ public class ServerLogic {
                             "\r\n" +
                             "<html>\r\n" +
                             "<head>\r\n" +
-                            "  <title>An Example Page</title>\r\n" +
+                            "  <title>WELCOME TO SERVER APP!</title>\r\n" +
                             "</head>\r\n" +
                             "<body>\r\n" +
                             "  <a href=\'calculator.html\'>Calculator</a>\r\n" +
                             "</body>\r\n" +
                             "</html>");
-                } else if(true) {
+                } else if(this.getExtension(uri).equals("png")) {
+                    writer.print(readImage(uri));
+                } else {
                     try {
                         writer.print(readTextFile(uri));
                     } catch(FileNotFoundException fnfe) {
@@ -65,24 +68,44 @@ public class ServerLogic {
     }
 
     private String getURI(String header) {
-        System.out.println(header);
+        //System.out.println(header);
         return header.split(" ")[1];
     }
 
     private String readTextFile(String uri) throws IOException {
-        String line;
         String textRespond = "HTTP/1.1 200 OK\r\n" +
-                "\r\n" +
-                "<html>\r\n";
-        String address = "src/resources"+uri;
+                "\r\n";
+        String address = "resources"+uri;
         File file = new File(address);
+        Scanner fileReader = new Scanner(file);
 
-        FileInputStream fis = new FileInputStream(file);
-        BufferedReader br = new BufferedReader(new InputStreamReader(fis));
+        /* textRespond += "<head>\r\n" +
+                "  <title>" + uri + "/title>\r\n" +
+                "</head>\r\n"; */
 
-        while( (line = br.readLine()) != null ) {
-            textRespond += "\n" + line;
+        while(fileReader.hasNextLine()) {
+            textRespond += fileReader.nextLine() + "\n";
         }
         return textRespond;
+    }
+
+    private String readImage(String uri) {
+        String imageRespond = "HTTP/1.1 200 OK\r\n" +
+                "\r\n";
+        String address = "resources" +uri;
+        File file = new File(address);
+        imageRespond+= "<html>\n" +
+                "<body>\n" +
+                "\n" +
+                "<img src=\"" + uri + "\" alt=\"" + uri + "\" style=\"width:304px;height:228px;\">\n" +
+                "\n" +
+                "</body>";
+
+        return imageRespond;
+    }
+
+    private String getExtension(String uri) {
+        String[] splitter = uri.split("[/.]");
+        return splitter[splitter.length-1];
     }
 }

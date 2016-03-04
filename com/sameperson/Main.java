@@ -1,6 +1,6 @@
-import logic.ServerLogic;
+package com.sameperson;
 
-
+import com.sameperson.logic.ServerLogic;
 
 public class Main {
 
