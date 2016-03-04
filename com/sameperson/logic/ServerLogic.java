@@ -75,13 +75,9 @@ public class ServerLogic {
     private String readTextFile(String uri) throws IOException {
         String textRespond = "HTTP/1.1 200 OK\r\n" +
                 "\r\n";
-        String address = "resources"+uri;
+        String address = "src/resources"+uri;
         File file = new File(address);
         Scanner fileReader = new Scanner(file);
-
-        /* textRespond += "<head>\r\n" +
-                "  <title>" + uri + "/title>\r\n" +
-                "</head>\r\n"; */
 
         while(fileReader.hasNextLine()) {
             textRespond += fileReader.nextLine() + "\n";
@@ -92,8 +88,7 @@ public class ServerLogic {
     private String readImage(String uri) {
         String imageRespond = "HTTP/1.1 200 OK\r\n" +
                 "\r\n";
-        String address = "resources" +uri;
-        File file = new File(address);
+        String address = "src/resources" +uri;
         imageRespond+= "<html>\n" +
                 "<body>\n" +
                 "\n" +
