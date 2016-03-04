@@ -1,0 +1,52 @@
+.spoiler-block {
+    text-align: center;
+    color: #000;
+    padding-bottom: 300px;
+}
+
+.spoiler {
+    margin-top: 0em;
+}
+
+.grid {
+    margin: 0 0 0 20px;
+
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+.grid h1 {
+    font-family: Arial;
+    color: black;
+}
+button {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0px;
+    font-family: Arial;
+    color: #ffffff;
+    font-size: 20px;
+    background: #000000;
+    padding: 10px 20px 10px 20px;
+    text-decoration: none;
+    border:none;
+
+}
+
+button:hover {
+    background: #ff5500;
+    text-decoration: none;
+    border: none;
+}
+
+button:active {
+    background: #aa3300;
+    border: none;
+}
+
+#sbutton {
+
+}
